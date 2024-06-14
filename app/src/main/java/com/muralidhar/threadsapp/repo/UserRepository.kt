@@ -1,12 +1,11 @@
 package com.muralidhar.threadsapp.repo
 
-import com.muralidhar.threadsapp.room.daos.UserDao
 import com.muralidhar.threadsapp.room.entities.Users
+import com.muralidhar.threadsapp.utils.ResultState
 import kotlinx.coroutines.flow.Flow
 
-class UserRepository(private val userDao: UserDao) {
-
-    suspend fun insertUserList(users: List<Users>) = userDao.insertUsers(users)
-    fun getUser(): Flow<Users> = userDao.getUsers()
-    fun getUserList(): Flow<MutableList<Users>> = userDao.getUserList()
+interface UserRepository {
+    fun insertUserList(users: List<Users>): List<Long>
+    fun getUser(): Flow<Users>
+    fun getUserList(): Flow<ResultState<MutableList<Users>>>
 }

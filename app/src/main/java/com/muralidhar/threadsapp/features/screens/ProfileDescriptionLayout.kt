@@ -64,7 +64,7 @@ fun ProfileDescriptionLayout(
         )
 
         Text(
-            text = user.userName,
+            text = user.userDescription,
             modifier = modifier.layoutId(ProfileDescription.USERNAME),
             style = userNameStyle
         )

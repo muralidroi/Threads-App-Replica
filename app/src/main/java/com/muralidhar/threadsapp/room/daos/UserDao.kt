@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface UserDao {
     @Insert
-    suspend fun insertUsers(user: List<Users>): List<Long>
+    fun insertUsers(user: List<Users>): List<Long>
 
     @Query("select * from Users limit 1")
     fun getUsers(): Flow<Users>

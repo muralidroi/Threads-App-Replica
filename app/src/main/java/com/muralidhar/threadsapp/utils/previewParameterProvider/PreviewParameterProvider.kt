@@ -1,4 +1,4 @@
-package com.muralidhar.threadsapp.utils.PreviewParameterProvider
+package com.muralidhar.threadsapp.utils.previewParameterProvider
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.muralidhar.threadsapp.room.entities.Users
@@ -8,11 +8,11 @@ class UserPreviewParameterProvider : PreviewParameterProvider<Users> {
     override val values = sequenceOf(
         Users(
             name = "Muralidhar",
-            userName = "iamMurali",
+            userDescription = "iamMurali",
             followersCount = 170,
             email = "email",
             bioInfo = "yad bhavam tad bhavati",
-            createdAt = Date().time,
+            createdAt = Date().time.toString(),
             imageName = ""
         )
     )

@@ -13,8 +13,8 @@ data class Users(
     @ColumnInfo(name = "NAME")
     val name: String,
 
-    @ColumnInfo(name = "USER_NAME")
-    val userName: String,
+    @ColumnInfo(name = "USER_DESCRIPTION")
+    val userDescription: String,
 
     @ColumnInfo(name = "FOLLOWERS_COUNT")
     val followersCount: Int,
@@ -26,8 +26,8 @@ data class Users(
     val bioInfo: String,
 
     @ColumnInfo(name = "CREATED_AT")
-    val createdAt: Long,
+    var createdAt: String,
 
     @ColumnInfo(name = "IMAGE_NAME")
-    val imageName: String,
+    var imageName: String,
     )
