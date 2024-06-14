@@ -22,7 +22,9 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -45,13 +47,40 @@ import com.muralidhar.threadsapp.room.entities.Users
 import com.muralidhar.threadsapp.ui.theme.Purple40
 import com.muralidhar.threadsapp.ui.theme.Purple80
 import com.muralidhar.threadsapp.ui.theme.PurpleGrey80
+import com.muralidhar.threadsapp.utils.CommonDialog
+import com.muralidhar.threadsapp.utils.ResultState
+import com.muralidhar.threadsapp.viewmodel.UserViewModel
 
 @Composable
-fun NotificationScreen(userList: MutableList<Users>, modifier: Modifier) {
+fun NotificationScreen(userViewModel:  UserViewModel, modifier: Modifier) {
 
     val chips = listOf("All", "Replies", "Mentions", "Verified")
     var selected by remember { mutableIntStateOf(0) }
     val scrollState = rememberScrollState()
+
+    LaunchedEffect(key1 = true) {
+        userViewModel.fetchUserList()
+    }
+
+    val userListState = userViewModel.getUserList.observeAsState()
+    var userList = mutableListOf<Users>()
+
+    when (val result = userListState.value) {
+        is ResultState.Loading -> {
+            CommonDialog()
+        }
+        is ResultState.Success -> {
+            userList = result.data
+        }
+        is ResultState.Failure -> {
+            val exception = result.msg
+            // Show error message
+            Text(text = "Error: $exception")
+        }
+        else -> {
+            // Initial state, do nothing
+        }
+    }
 
     BoxWithConstraints(
         modifier = modifier
@@ -96,7 +125,7 @@ fun NotificationScreen(userList: MutableList<Users>, modifier: Modifier) {
                     //RepliesSection(text = "Mentioned you")
                 }
                 if (selected == 1) items(userList) {
-                    RepliesSection(it, modifier)
+                    RepliesSection(user = it, modifier = modifier)
                 }
                 if (selected == 2) items(5) {
                     /*RepliesSection(

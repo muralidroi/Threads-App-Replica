@@ -2,6 +2,7 @@ package com.muralidhar.threadsapp.koin
 
 import androidx.room.Room
 import com.muralidhar.threadsapp.repo.UserRepository
+import com.muralidhar.threadsapp.repo.UserRepositoryImpl
 import com.muralidhar.threadsapp.room.Database
 import com.muralidhar.threadsapp.viewmodel.UserViewModel
 import org.koin.android.ext.koin.androidApplication
@@ -14,7 +15,12 @@ import org.koin.dsl.module
 fun injectFeature() = loadFeatures
 
 private val loadFeatures by lazy {
-    loadKoinModules(listOf(viewModelModule, repositoryModule, userAppModule))
+    loadKoinModules(listOf(viewModelModule, repositoryImplModule, userAppModule, userRepoModule))
+}
+
+
+val userRepoModule = module {
+    factory<UserRepository> { UserRepositoryImpl(get()) }
 }
 
 val viewModelModule = module {
@@ -22,8 +28,8 @@ val viewModelModule = module {
 }
 
 
-val repositoryModule = module {
-    factory { UserRepository(userDao = get()) }
+val repositoryImplModule = module {
+    factory { UserRepositoryImpl(userDao = get()) }
 }
 
 val userAppModule = module {

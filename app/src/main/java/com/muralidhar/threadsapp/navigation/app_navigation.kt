@@ -25,31 +25,22 @@ fun AppNavigation(
 
     LaunchedEffect (key1 = Unit) {
         userViewModel.getUser()
-        userViewModel.getUserList()
     }
 
     val user = userViewModel.getUser.observeAsState()
 
-    val userList = userViewModel.getUserList.observeAsState()
-
     NavHost(navController = navHostController, startDestination = BottomBarItems.Home.route) {
         composable(BottomBarItems.Home.route) {
-            userList.value.let {
-                it?.let { it1 -> HomeScreen(modifier, it1) }
-            }
+            HomeScreen(modifier, userViewModel)
         }
         composable(BottomBarItems.Search.route) {
-            userList.value.let {
-                it?.let { it1 -> SearchScreen(it1) }
-            }
+            SearchScreen(userViewModel)
         }
         composable(BottomBarItems.Post.route) {
             PostScreen()
         }
         composable(BottomBarItems.Notification.route) {
-            userList.value.let {
-                it?.let { it1 -> NotificationScreen(it1,modifier) }
-            }
+            NotificationScreen(userViewModel,modifier)
         }
         composable(BottomBarItems.Profile.route) {
             ProfileScreen(user, modifier)
